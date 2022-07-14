@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS Edata_db;
 CREATE DATABASE Edata_db;
 
-USE eData_db;
+USE Edata_db;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -10,7 +10,7 @@ CREATE TABLE department (
 
 CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30)
+    title VARCHAR(30),
     salary DECIMAL(10,2),
     department_id INT references department(id)
   
