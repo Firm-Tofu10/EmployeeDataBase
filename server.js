@@ -88,9 +88,116 @@ function viewRoles(){
 }
 
 function viewEmployee(){
-    db.query("select * from employee",function(err,data){
+    db.query("select * from employees",function(err,data){
         if(err) throw err;
         console.table(data)
         boot()
     })
 }
+function addDepartment(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message:"Enter department name ?",
+            name:"dname"
+        }
+    ]).then(({dname}) => {
+
+        db.query(`insert into department(department_name) values(?);`,dname,function(err,data){
+            if(err) throw err;
+            console.table(data)
+            boot()
+        })
+    })
+    }
+
+function newEmployee(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message:"Enter Employee first name?",
+            name:"Efname"
+            
+        },
+        {
+            type:"input",
+            message:"Enter Employee last name?",
+            name:"Elname"
+            
+        },
+        {
+            type:"list",
+            message:"Enter role ID?",
+            name:"roleID",
+            choices:[
+                {name:"Manager - Marketing",value:1},
+                {name:'Manager - Sales',value:2},
+                {name:'Manager - IT',value:3}
+
+            ]
+            
+        },
+    ]).then( response => {
+
+        db.query(`INSERT into employees(first_name,last_name,role_id)values(?,?,?);`,
+        [response.Efname,response.Elname,response.roleID],function(err,data){
+            if(err) throw err;
+            console.table(data)
+            boot()
+        })
+    })
+}
+
+function addRoles(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message:"Enter roles title ?",
+            name:"Rtitle"
+            
+        },
+        {
+            type:"input",
+            message:"Enter roles salary ?",
+            name:"Rsalary"
+            
+        },
+        {
+            type:"list",
+            message:"Enter department ?",
+            name:"RdepartmentID",
+            choices:[
+                {name:"Marketing",value:1},
+                {name:'Sales',value:2},
+                {name:'IT',value:3}
+
+            ]
+            
+        },
+    ]).then( response => {
+
+        db.query(`INSERT into roles(title,salary,department_id)values(?,?,?);`,
+        [response.Rtitle,response.Rsalary,response.RdepartmentID],function(err,data){
+            if(err) throw err;
+            console.table(data)
+            boot()
+        })
+    })
+}
+
+function deleteEmployee(){
+    inquirer.prompt([
+        {
+            type:"input",
+            message:"Enter Employee ID",
+            name:"Demployee",
+        }
+    ]).then(({Demployee}) => {
+
+        db.query(`delete from employees where id = ?;`,Demployee,function(err,data){
+            if(err) throw err;
+            console.table(data)
+            boot()
+        })
+    })
+    }
